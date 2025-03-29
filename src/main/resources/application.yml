@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: spring-ai-demo
+
+  ai:
+    openai:
+      # 聊天模型
+      chat:
+        options:
+          model: deepseek-ai/DeepSeek-V2.5
+      api-key: sk-mrkrxxavxqkmrbrfwnupjjnwsmfydfzxeclffkckfbqizqav
+      base-url: https://api.siliconflow.cn/
+
+      # 嵌入模型
+      embedding:
+        options:
+          model: BAAI/bge-m3
+          dimensions: 1024

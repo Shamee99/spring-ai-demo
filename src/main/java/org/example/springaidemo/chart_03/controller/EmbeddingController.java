@@ -26,7 +26,10 @@ public class EmbeddingController {
 
     @GetMapping("/embedding")
     public void embedding() {
-        List<String> texts = List.of("Hello world", "Bye world", "banner", "apple");
+        List<String> texts = List.of("问题：小锐云服pro白屏，闪退。解决方案：卸载重装。因为客户异常退出后，db损坏。",
+                "问题：客户反馈打开数据漫游报错。解决方案：pro云端服务问题。",
+                "问题：巡检进度条一直为0。解决方案：未知",
+                "问题：软件诊断一直无法结束。解决方案：pro云端问题");
 
         // 将文本与嵌入向量绑定后存储
         List<Document> documents = texts.stream()

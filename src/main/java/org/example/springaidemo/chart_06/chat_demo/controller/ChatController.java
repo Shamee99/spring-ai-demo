@@ -3,18 +3,14 @@ package org.example.springaidemo.chart_06.chat_demo.controller;
 import org.example.springaidemo.chart_06.chat_demo.service.ChatMemoryService;
 import org.example.springaidemo.chart_06.chat_demo.service.ChatService;
 import org.springframework.ai.chat.prompt.Prompt;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import reactor.core.publisher.Flux;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 
 @RestController
 @RequestMapping("/api/chat")
@@ -65,7 +61,7 @@ public class ChatController {
                 .subscribe(
                         chunk -> {
                             try {
-                                emitter.send(chunk.getResult().getOutput().getContent());
+                                emitter.send(chunk.getResult().getOutput().getText());
                             } catch (IOException e) {
                                 emitter.completeWithError(e);
                             }
@@ -83,18 +79,4 @@ public class ChatController {
         return chatMemoryService.chatWithMemoryStream(requestId, message);
     }
 
-}
-
-class SseEmitterUTF8 extends SseEmitter {
-    @Override
-    protected void extendResponse(ServerHttpResponse outputMessage) {
-        super.extendResponse(outputMessage);
-        HttpHeaders headers = outputMessage.getHeaders();
-        headers.setContentType( new MediaType("text", "event-stream", StandardCharsets.UTF_8));
-    }
-
-
-    public SseEmitterUTF8(Long timeout) {
-        super(timeout);
-    }
 }

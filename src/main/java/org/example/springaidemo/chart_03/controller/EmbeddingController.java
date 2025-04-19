@@ -1,13 +1,9 @@
 package org.example.springaidemo.chart_03.controller;
 
 import org.springframework.ai.document.Document;
-import org.springframework.ai.openai.OpenAiEmbeddingModel;
 import org.springframework.ai.vectorstore.SearchRequest;
-import org.springframework.ai.vectorstore.SimpleVectorStore;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,12 +38,12 @@ public class EmbeddingController {
     // 执行搜索
     @GetMapping("/search")
     public List<String> search(@RequestParam String query) {
-        SearchRequest request = SearchRequest.query(query).withTopK(5);
+        SearchRequest request = SearchRequest.builder().query(query).topK(5).build();
         List<Document> results = vectorStore.similaritySearch(request);
 
         // 提取文档内容（排除嵌入向量）
         List<String> res = results.stream()
-                .map(Document::getContent)
+                .map(Document::getFormattedContent)
                 .toList();
         System.out.println("查询条件：" + query);
         System.out.println("查询结果：" + res);
@@ -56,15 +52,3 @@ public class EmbeddingController {
 
 }
 
-
-/**
- * 定义一个简单的向量库
- */
-@Configuration
-class VectorConfig {
-
-    @Bean
-    public SimpleVectorStore vectorStore(OpenAiEmbeddingModel embeddingModel) {
-        return new SimpleVectorStore(embeddingModel);
-    }
-}

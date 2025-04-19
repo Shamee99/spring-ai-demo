@@ -7,7 +7,7 @@ spring:
       chat:
         options:
           model: deepseek-ai/DeepSeek-V2.5
-      api-key: sk-xxxxxxxxxxxxx
+      api-key: sk-szjgotxrrhcwyoncpbwawnumenvgeqpsggnwsbmerchjgopl
       base-url: https://api.siliconflow.cn/
 
       # 嵌入模型

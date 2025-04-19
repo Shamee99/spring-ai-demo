@@ -40,7 +40,7 @@ public class ChatService {
         // 简单的单轮对话
         return openAiChatModel
                 .call(new Prompt(message))
-                .getResult().getOutput().getContent();
+                .getResult().getOutput().getText();
     }
 
     /**
@@ -64,7 +64,7 @@ public class ChatService {
         Prompt prompt = new Prompt(List.of(systemMessage, userMessage));
         return openAiChatModel
                 .call(prompt)
-                .getResult().getOutput().getContent();
+                .getResult().getOutput().getText();
     }
 
     /**
@@ -77,7 +77,7 @@ public class ChatService {
         conversationHistory.add(new UserMessage(message));
         // 多轮对话
         Prompt prompt = new Prompt(conversationHistory);
-        String aiResponse = openAiChatModel.call(prompt).getResult().getOutput().getContent();
+        String aiResponse = openAiChatModel.call(prompt).getResult().getOutput().getText();
 
         // 添加AI回复到历史
         conversationHistory.add(new MyAssistantMessage(aiResponse));

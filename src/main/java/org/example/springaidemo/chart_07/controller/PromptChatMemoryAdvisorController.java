@@ -2,6 +2,7 @@ package org.example.springaidemo.chart_07.controller;
 
 
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor;
 import org.springframework.ai.chat.client.advisor.PromptChatMemoryAdvisor;
 import org.springframework.ai.chat.memory.InMemoryChatMemory;
 import org.springframework.ai.openai.OpenAiChatModel;
@@ -28,8 +29,8 @@ public class PromptChatMemoryAdvisorController {
         ChatClient.CallResponseSpec response = chatClient.prompt()
                 .user("推荐适合新手的相机")
                 .advisors(advisor ->
-                        advisor.param("conversation_id", "user_123")
-                                .param("retrieve_size", 5) // 加载最近 5 轮对话
+                        advisor.param(AbstractChatMemoryAdvisor.CHAT_MEMORY_CONVERSATION_ID_KEY, "user_123")
+                                .param(AbstractChatMemoryAdvisor.CHAT_MEMORY_RETRIEVE_SIZE_KEY, 5) // 加载最近 5 轮对话
                 ).call();
 
         System.out.println("-----推荐适合新手的相机：" + response.content());
@@ -37,8 +38,8 @@ public class PromptChatMemoryAdvisorController {
         ChatClient.CallResponseSpec response2 = chatClient.prompt()
                 .user("按照价格排序一下")
                 .advisors(advisor ->
-                        advisor.param("conversation_id", "user_123")
-                                .param("retrieve_size", 5) // 加载最近 5 轮对话
+                        advisor.param(AbstractChatMemoryAdvisor.CHAT_MEMORY_CONVERSATION_ID_KEY, "user_123")
+                                .param(AbstractChatMemoryAdvisor.CHAT_MEMORY_RETRIEVE_SIZE_KEY, 5) // 加载最近 5 轮对话
                 ).call();
 
         System.out.println("-----按照价格排序一下：" + response2.content());

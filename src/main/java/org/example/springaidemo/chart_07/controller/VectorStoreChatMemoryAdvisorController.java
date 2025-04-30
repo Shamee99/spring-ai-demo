@@ -1,6 +1,7 @@
 package org.example.springaidemo.chart_07.controller;
 
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor;
 import org.springframework.ai.chat.client.advisor.PromptChatMemoryAdvisor;
 import org.springframework.ai.chat.client.advisor.VectorStoreChatMemoryAdvisor;
 import org.springframework.ai.chat.memory.InMemoryChatMemory;
@@ -35,8 +36,8 @@ public class VectorStoreChatMemoryAdvisorController {
         ChatClient.CallResponseSpec response = chatClient.prompt()
                 .user("上次推荐的相机型号是什么？")
                 .advisors(advisor ->
-                        advisor.param("conversation_id", "user_123")
-                                .param("retrieve_size", 5) // 加载最近 5 轮对话
+                        advisor.param(AbstractChatMemoryAdvisor.CHAT_MEMORY_CONVERSATION_ID_KEY, "user_123")
+                                .param(AbstractChatMemoryAdvisor.CHAT_MEMORY_RETRIEVE_SIZE_KEY, 5) // 加载最近 5 轮对话
                 ).call();
 
         System.out.println("-----上次推荐的相机型号是什么？" + response.content());

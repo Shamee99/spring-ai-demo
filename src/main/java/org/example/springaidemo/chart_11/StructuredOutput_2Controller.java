@@ -1,5 +1,7 @@
 package org.example.springaidemo.chart_11;
 
+import org.example.springaidemo.chart_11.convert.ScoreItem;
+import org.example.springaidemo.chart_11.convert.ScoreListOutputConverter;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.prompt.Prompt;
@@ -76,15 +78,28 @@ public class StructuredOutput_2Controller {
 
     @GetMapping("/sto/list")
     public List<String> list() {
-        ListOutputConverter converter =
-                new ListOutputConverter(new DefaultConversionService());
+        ListOutputConverter converter = new ListOutputConverter(new DefaultConversionService());
+        Prompt prompt = new SystemPromptTemplate(promptList).create(Map.of("format", converter.getFormat()));
+        return chatClient.prompt(prompt).call().entity(converter);
+    }
 
-        Prompt prompt = new SystemPromptTemplate(promptList)
-                .create(Map.of("format", converter.getFormat()));
+    @GetMapping("/sto/score")
+    public List<ScoreItem> score() {
+        ScoreListOutputConverter converter = new ScoreListOutputConverter();
+
+        // 1. 拼装提示词
+        String userText = """
+            请给以下 3 位打工人年度表现打分（0-100）：
+            张三、李四、王五
+            {format}
+            """;
+        PromptTemplate pt = new SystemPromptTemplate(userText);
+        Prompt prompt = pt.create(Map.of("format", converter.getFormat()));
+
 
         return chatClient.prompt(prompt)
                 .call()
-                .entity(converter);
+                .entity(converter);   // 传入我们自定义的转换器
     }
 
     private String cleanLlmResponse(String response) {

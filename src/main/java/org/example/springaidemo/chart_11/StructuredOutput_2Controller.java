@@ -87,7 +87,6 @@ public class StructuredOutput_2Controller {
     public List<ScoreItem> score() {
         ScoreListOutputConverter converter = new ScoreListOutputConverter();
 
-        // 1. 拼装提示词
         String userText = """
             请给以下 3 位打工人年度表现打分（0-100）：
             张三、李四、王五
@@ -99,7 +98,7 @@ public class StructuredOutput_2Controller {
 
         return chatClient.prompt(prompt)
                 .call()
-                .entity(converter);   // 传入我们自定义的转换器
+                .entity(converter);
     }
 
     private String cleanLlmResponse(String response) {

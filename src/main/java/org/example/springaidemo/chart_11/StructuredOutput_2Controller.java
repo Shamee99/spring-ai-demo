@@ -56,7 +56,7 @@ public class StructuredOutput_2Controller {
         BeanOutputConverter<ProgrammerTalks> converter =
                 new BeanOutputConverter<>(ProgrammerTalks.class);
 
-        Prompt prompt = new SystemPromptTemplate(promptBean)
+        Prompt prompt = new PromptTemplate(promptBean)
                 .create(Map.of("format", converter.getFormat()));
 
         return chatClient.prompt(prompt)

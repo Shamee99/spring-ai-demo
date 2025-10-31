@@ -183,6 +183,12 @@
                 <artifactId>druid-spring-boot-starter</artifactId>
                 <version>1.2.11</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.springframework.ai</groupId>
+                <artifactId>spring-ai-openai-spring-boot-starter</artifactId>
+                <version>1.0.0-M6</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -202,6 +208,7 @@
                     <include>**/*.st</include>
                     <include>**/*.xml</include>
                     <include>**/*.yml</include>
+                    <include>**/*.png</include>
                 </includes>
                 <filtering>false</filtering>
             </resource>
